@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eBay Parts Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        /* Header styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #A3B39E; /* Similar green background */
+            padding: 20px;
+            color: white;
+        }
+        .header .text-content {
+            flex: 1;
+        }
+        .header h1 {
+            font-size: 2em;
+            margin: 0;
+            font-weight: bold;
+        }
+        .header p {
+            font-size: 1.2em;
+            margin: 5px 0;
+        }
+        .header .image-content {
+            max-width: 200px;
+        }
+        .header .image-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        /* Style for the main form */
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 15px 0 5px;
+            text-align: left;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header section -->
+    <div class="header">
+        <div class="text-content">
+            <h1>CANPARTS4U</h1>
+            <p>Need a part for your car? <br> Send a message!</p>
+        </div>
+        <div class="image-content">
+            <img src="your-image-url.png" alt="Header Image"> <!-- Replace with your actual image URL -->
+        </div>
+    </div>
+
+    <!-- Main form section -->
+    <form action="/search" method="post">
+        <label for="part_number">Part Number:</label>
+        <input type="text" id="part_number" name="part_number">
+
+        <label for="year">Year:</label>
+        <input type="text" id="year" name="year">
+
+        <label for="make">Make:</label>
+        <input type="text" id="make" name="make">
+
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model">
+
+        <label for="min_price">Min Price:</label>
+        <input type="text" id="min_price" name="min_price" value="150">
+
+        <label for="max_price">Max Price:</label>
+        <input type="text" id="max_price" name="max_price" value="700">
+
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>

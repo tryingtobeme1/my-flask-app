@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h2 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            cursor: pointer;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        /* Responsive adjustments */
+        @media only screen and (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none; /* Hide header row */
+            }
+            tr {
+                margin-bottom: 10px;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+            td {
+                display: flex;
+                justify-content: space-between;
+                padding: 8px;
+                border: none;
+                border-bottom: 1px solid #ddd;
+            }
+            td:before {
+                content: attr(data-label);
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+        }
+    </style>
+    <script>
+        function sortTable(n, type) {
+            const table = document.getElementById("resultsTable");
+            let rows, switching, i, x, y, shouldSwitch, dir, switchCount = 0;
+            switching = true;
+            dir = "asc"; 
+
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                
+                for (i = 1; i < rows.length - 1; i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    
+                    if (type === "text") {
+                        if (dir == "asc" && x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        } else if (dir == "desc" && x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (type === "num") {
+                        if (dir == "asc" && parseFloat(x.innerHTML.replace(/[^0-9.-]+/g, "")) > parseFloat(y.innerHTML.replace(/[^0-9.-]+/g, ""))) {
+                            shouldSwitch = true;
+                            break;
+                        } else if (dir == "desc" && parseFloat(x.innerHTML.replace(/[^0-9.-]+/g, "")) < parseFloat(y.innerHTML.replace(/[^0-9.-]+/g, ""))) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchCount++;
+                } else {
+                    if (switchCount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h2>Search Results</h2>
+    <a href="/">New Search</a>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0, 'text')">Title</th>
+                <th onclick="sortTable(1, 'num')">Price</th>
+                <th onclick="sortTable(2, 'text')">Shipping</th>
+                <th onclick="sortTable(3, 'text')">Date Sold</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in listings %}
+            <tr>
+                <td data-label="Title"><a href="{{ item['Link'] }}" target="_blank">{{ item['Title'] }}</a></td>
+                <td data-label="Price">{{ item['Price'] }}</td>
+                <td data-label="Shipping">{{ item['Shipping'] }}</td>
+                <td data-label="Date Sold">{{ item['Date Sold'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
